@@ -57,7 +57,7 @@ export function TabContainer({
       onMouseLeave={handleMouseLeave}
     >
       {menuList.map((menu, index) => (
-        <Tab key={index} id={index} menuName={menu.category} activeTab={activeTab} onClick={() => handleClick(index)} />
+        <Tab key={index} id={index} menuName={menu.name} activeTab={activeTab} onClick={() => handleClick(index)} />
       ))}
     </div>
   );

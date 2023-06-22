@@ -1,10 +1,10 @@
 export interface Menu {
-  category: string;
-  products: Product[];
+  name: string;
 }
 
-interface Product {
-  imgURL: string;
+export interface Product {
   name: string;
   price: number;
+  id: number;
+  img: string;
 }
