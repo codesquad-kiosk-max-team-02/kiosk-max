@@ -2,26 +2,25 @@ import classes from './Tab.module.css';
 
 export function Tab({
   id,
-  tab,
-  activeIdx,
+  menuName,
+  activeTab,
   onClick,
 }: {
-  key: number;
   id: number;
-  tab: string;
-  activeIdx: number;
+  menuName: string;
+  activeTab: number;
   onClick: () => void;
 }) {
-  if (activeIdx === id) {
+  if (activeTab === id) {
     return (
       <button className={`${classes.tab} ${classes.active}`} onClick={onClick}>
-        {tab}
+        {menuName}
       </button>
     );
   }
   return (
     <button className={classes.tab} onClick={onClick}>
-      {tab}
+      {menuName}
     </button>
   );
 }
