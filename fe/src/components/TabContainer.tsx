@@ -6,6 +6,11 @@ export function TabContainer({ tabs }: { tabs: string[] }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [startX, setStartX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [activeTabIdx, setActiveTabIdx] = useState(0);
+
+  const handleClick = (index: number) => {
+    setActiveTabIdx(index);
+  };
 
   const handleMouseDown: React.MouseEventHandler = (event) => {
     setStartX(event.pageX - (containerRef.current?.offsetLeft ?? 0));
@@ -44,7 +49,7 @@ export function TabContainer({ tabs }: { tabs: string[] }) {
       onMouseLeave={handleMouseLeave}
     >
       {tabs.map((tab, index) => (
-        <Tab key={index} tab={tab} />
+        <Tab key={index} id={index} tab={tab} activeIdx={activeTabIdx} onClick={() => handleClick(index)} />
       ))}
     </div>
   );
