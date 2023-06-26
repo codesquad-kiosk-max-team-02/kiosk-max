@@ -1,16 +1,37 @@
 import classes from './Cart.module.css';
-import { Button } from './Button';
+import { CartItem } from './CartItem';
 
 export function Cart() {
+  const orderList = [
+    {
+      menuId: 1,
+      option: { size: 1, temperature: 2 },
+      quantity: 1,
+    },
+    {
+      menuId: 2,
+      option: { size: 2, temperature: 2 },
+      quantity: 3,
+    },
+    {
+      menuId: 3,
+      option: { size: 1, temperature: 1 },
+      quantity: 2,
+    },
+    {
+      menuId: 4,
+      option: { size: 1, temperature: 2 },
+      quantity: 1,
+    },
+  ];
+
   return (
     <div className={classes.cart}>
       <div className={classes.left}>
         <ul className={classes.itemList}>
-          <li className={classes.item}>order1</li>
-          <li className={classes.item}>order2</li>
-          <li className={classes.item}>order3</li>
-          <li className={classes.item}>order4</li>
-          <li className={classes.item}>order5</li>
+          {orderList.map((order, index) => {
+            return <CartItem key={index} />;
+          })}
         </ul>
       </div>
       <div className={classes.right}>
