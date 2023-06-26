@@ -14,8 +14,8 @@ env:
   CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: team2-kiosk
 
 permissions:
-  write : write
-  contents: read
+  id-token: write
+  contents: write
 
 jobs:
   deploy:
