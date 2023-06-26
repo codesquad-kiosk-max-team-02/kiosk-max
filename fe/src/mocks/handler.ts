@@ -7,6 +7,8 @@ const coffee = [
   { name: '콜드브루', price: '4500', id: '2', img: '/assets/americano.jpeg' },
   { name: '에스프레소', price: '3000', id: '3', img: '/assets/americano.jpeg' },
   { name: '카페모카', price: '4500', id: '4', img: '/assets/americano.jpeg' },
+  { name: '커피1', price: '4500', id: '4', img: '/assets/americano.jpeg' },
+  { name: '커피2', price: '4500', id: '4', img: '/assets/americano.jpeg' },
 ];
 
 const latte = [

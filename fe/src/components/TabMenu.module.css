@@ -1,10 +1,4 @@
 .nav {
   width: 800px;
-  height: 80px;
-  /* border-right: 1px solid black; */
-  /* overflow: hidden; */
+  /* height: 10%; */
 }
-
-/* .nav::-webkit-scrollbar {
-  display: none;
-} */
