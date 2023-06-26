@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
 import { Tab } from './Tab';
-import classes from './TabContainer.module.css';
+import classes from './TabMenu.module.css';
 import { Menu } from '../utils/types';
 
-export function TabContainer({
+export function TabMenu({
   menuList,
   activeTab,
   setActiveTab,

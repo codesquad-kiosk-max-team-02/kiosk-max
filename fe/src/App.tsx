@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import classes from './App.module.css';
 import { MainArea } from './components/MainArea';
 import { Cart } from './components/Cart';
-import { TabContainer } from './components/TabContainer';
+import { TabMenu } from './components/TabMenu';
 
 function App() {
   const [activeTab, setActiveTab] = useState(0);
@@ -33,7 +33,7 @@ function App() {
 
   return (
     <div className={classes.kiosk}>
-      <TabContainer menuList={menuList} activeTab={activeTab} setActiveTab={setActiveTab} />
+      <TabMenu menuList={menuList} activeTab={activeTab} setActiveTab={setActiveTab} />
       <MainArea productList={productList} activeTab={activeTab} setActiveTab={setActiveTab} />
       <Cart />
     </div>
