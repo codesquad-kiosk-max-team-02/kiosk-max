@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 
 import classes from './App.module.css';
-import { TabMenu } from './components/TabMenu';
 import { MainArea } from './components/MainArea';
+import { Cart } from './components/Cart';
+import { TabContainer } from './components/TabContainer';
 
 function App() {
   const [activeTab, setActiveTab] = useState(0);
@@ -32,8 +33,9 @@ function App() {
 
   return (
     <div className={classes.kiosk}>
-      <TabMenu menuList={menuList} activeTab={activeTab} setActiveTab={setActiveTab} />
+      <TabContainer menuList={menuList} activeTab={activeTab} setActiveTab={setActiveTab} />
       <MainArea productList={productList} activeTab={activeTab} setActiveTab={setActiveTab} />
+      <Cart />
     </div>
   );
 }
