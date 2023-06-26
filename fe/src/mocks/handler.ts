@@ -16,6 +16,7 @@ const latte = [
   { name: '라떼2', price: '4500', id: '2', img: '/assets/latte.jpeg' },
   { name: '라떼3', price: '3000', id: '3', img: '/assets/latte.jpeg' },
   { name: '라떼4', price: '4500', id: '4', img: '/assets/latte.jpeg' },
+  { name: '라떼5', price: '4500', id: '4', img: '/assets/latte.jpeg' },
 ];
 
 const juice = [
