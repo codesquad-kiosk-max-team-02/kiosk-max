@@ -12,8 +12,8 @@ const coffee = [
 const latte = [
   { name: '카페라떼', price: 4500, menuId: 5, img: '/assets/latte.jpeg', isPopular: false },
   { name: '카푸치노', price: 4500, menuId: 6, img: '/assets/cappuccino.jpeg', isPopular: true },
-  { name: '라떼3', price: 3000, menuId: 7, img: '/assets/latte.jpeg', isPopular: false },
-  { name: '라떼4', price: 4500, menuId: 8, img: '/assets/latte.jpeg', isPopular: false },
+  { name: '평범한라떼', price: 3000, menuId: 7, img: '/assets/latte.jpeg', isPopular: false },
+  { name: '그냥라떼', price: 4500, menuId: 8, img: '/assets/latte.jpeg', isPopular: false },
 ];
 
 const juice = [

@@ -15,4 +15,6 @@ export type OrderData = {
   option: { size: number; temperature: number };
   quantity: number;
   price: number;
+  sizeCost: number;
+  iceCost: number;
 };

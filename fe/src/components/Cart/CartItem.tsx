@@ -11,7 +11,15 @@ export function CartItem({ orderData }: { orderData: OrderData }) {
       case 3:
         return '에스프레소';
       case 4:
+        return '카페모카';
+      case 5:
         return '카페라떼';
+      case 6:
+        return '카푸치노';
+      case 7:
+        return '평범한라떼';
+      case 8:
+        return '그냥라떼';
 
       default:
         return '메뉴 이름';

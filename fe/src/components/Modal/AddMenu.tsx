@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import classes from './AddMenu.module.css';
 import { OptionButton } from './OptionButton';
+import { OrderData } from '../../utils/types';
 
 /* 여기에서 바뀐 수량, 가격 정보 같은걸 가지고 있어야 함 => 장바구니에 내려주기 위해 */
 
@@ -75,15 +76,37 @@ export function AddMenu({
     const sizeNum = size === 'big' ? 2 : 1;
     const temperatureNum = temperature === 'ice' ? 2 : 1;
 
-    setOrderList((prevOrderList): any => [
-      {
-        menuId: menuId,
-        option: { size: sizeNum, temperature: temperatureNum },
-        quantity: count,
-        price: price,
-      },
-      ...prevOrderList,
-    ]);
+    // 장바구니 추가 전 확인 작업
+    // 이미 담긴 상품이면 -> OrderList에서 해당 상품의 수량만 변경
+    // 새로운 상품이면 -> setOrderList로 OrderList에 추가
+
+    setOrderList((prevOrderList: OrderData[]): any => {
+      const isDuplicate = prevOrderList.some(
+        (item) => item.menuId === menuId && item.option.size === sizeNum && item.option.temperature === temperatureNum,
+      );
+
+      if (isDuplicate) {
+        return prevOrderList.map((item) => {
+          if (item.menuId === menuId && item.option.size === sizeNum && item.option.temperature === temperatureNum) {
+            return {
+              ...item,
+              quantity: item.quantity + count,
+            };
+          }
+          return item;
+        });
+      }
+
+      return [
+        {
+          menuId: menuId,
+          option: { size: sizeNum, temperature: temperatureNum },
+          quantity: count,
+          price: price,
+        },
+        ...prevOrderList,
+      ];
+    });
 
     addModalCloseHandler();
   }

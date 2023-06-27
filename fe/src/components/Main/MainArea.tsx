@@ -16,7 +16,6 @@ export function MainArea({
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   function menuCardClickHandler(menuId: number) {
-    console.log(productList);
     const product = productList.find((item) => item.menuId === menuId);
     if (product) {
       setSelectedProduct(product);
