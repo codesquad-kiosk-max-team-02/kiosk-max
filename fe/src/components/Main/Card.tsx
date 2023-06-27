@@ -11,7 +11,7 @@ export function Card({
   name: string;
   price: number;
   img: string;
-  menuCardClickHandler: (index: number) => void;
+  menuCardClickHandler: (id: number) => void;
 }) {
   return (
     <div className={classes.box} onClick={() => menuCardClickHandler(id)}>

@@ -43,8 +43,8 @@ export function AddMenu({
 
   function calculateAdditionalCost() {
     let additionalCost = 0;
-    if (temperature === 'ice') additionalCost += 500;
-    if (size === 'big') additionalCost += 500;
+    if (temperature === 'ice') additionalCost += modalInfo.iceCost;
+    if (size === 'big') additionalCost += modalInfo.sizeCost;
     return additionalCost;
   }
 

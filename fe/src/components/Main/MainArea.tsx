@@ -15,8 +15,8 @@ export function MainArea({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  function menuCardClickHandler(index: number) {
-    const product = productList[index - 1];
+  function menuCardClickHandler(id: number) {
+    const product = productList[id - 1];
     setSelectedProduct(product);
     addModalOpenHandler();
   }
