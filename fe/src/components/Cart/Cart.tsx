@@ -25,7 +25,7 @@ export function Cart({
       <div className={classes.left}>
         <ul className={classes.itemList}>
           {orderList.map((order, index) => {
-            return <CartItem key={index} orderData={orderList[index]} setOrderList={setOrderList} />;
+            return <CartItem key={index} idx={index} orderData={orderList[index]} setOrderList={setOrderList} />;
           })}
         </ul>
       </div>
