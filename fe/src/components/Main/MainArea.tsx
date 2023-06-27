@@ -1,9 +1,9 @@
-import { Product } from '../utils/types';
+import { Product } from '../../utils/types';
 import { Card } from './Card';
 import { useState } from 'react';
 import classes from './MainArea.module.css';
-import { Modal } from './Modal';
-import { AddMenu } from './AddMenu';
+import { Modal } from '../Modal/Modal';
+import { AddMenu } from '../Modal/AddMenu';
 
 export function MainArea({
   productList,

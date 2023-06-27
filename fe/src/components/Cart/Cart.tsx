@@ -1,4 +1,4 @@
-import { OrderData } from '../utils/types';
+import { OrderData } from '../../utils/types';
 import classes from './Cart.module.css';
 import { CartItem } from './CartItem';
 

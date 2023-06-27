@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 
 import classes from './App.module.css';
-import { MainArea } from './components/MainArea';
-import { Cart } from './components/Cart';
-import { TabMenu } from './components/TabMenu';
+import { MainArea } from './components/Main/MainArea';
+import { Cart } from './components/Cart/Cart';
+import { TabMenu } from './components/Tab/TabMenu';
 
 function App() {
   const [activeTab, setActiveTab] = useState(0);
