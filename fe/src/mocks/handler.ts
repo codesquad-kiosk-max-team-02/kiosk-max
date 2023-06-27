@@ -3,38 +3,38 @@ import { rest } from 'msw';
 const menus = [{ name: '커피' }, { name: '라떼' }, { name: '쥬스' }, { name: '티' }, { name: '디카페인' }];
 
 const coffee = [
-  { name: '아메리카노', price: 4000, id: 1, img: '/assets/americano.jpeg' },
-  { name: '콜드브루', price: 4500, id: 2, img: '/assets/coldbrew.jpeg' },
-  { name: '에스프레소', price: 3000, id: 3, img: '/assets/espresso.jpeg' },
-  { name: '카페모카', price: 4500, id: 4, img: '/assets/caffe-mocha.jpeg' },
+  { name: '아메리카노', price: 4000, menuId: 1, img: '/assets/americano.jpeg', isPopular: true },
+  { name: '콜드브루', price: 4500, menuId: 2, img: '/assets/coldbrew.jpeg', isPopular: false },
+  { name: '에스프레소', price: 3000, menuId: 3, img: '/assets/espresso.jpeg', isPopular: false },
+  { name: '카페모카', price: 4500, menuId: 4, img: '/assets/caffe-mocha.jpeg', isPopular: false },
 ];
 
 const latte = [
-  { name: '라떼1', price: 4000, id: 5, img: '/assets/latte.jpeg' },
-  { name: '라떼2', price: 4500, id: 6, img: '/assets/latte.jpeg' },
-  { name: '라떼3', price: 3000, id: 7, img: '/assets/latte.jpeg' },
-  { name: '라떼4', price: 4500, id: 8, img: '/assets/latte.jpeg' },
+  { name: '카페라떼', price: 4500, menuId: 5, img: '/assets/latte.jpeg', isPopular: false },
+  { name: '카푸치노', price: 4500, menuId: 6, img: '/assets/cappuccino.jpeg', isPopular: true },
+  { name: '라떼3', price: 3000, menuId: 7, img: '/assets/latte.jpeg', isPopular: false },
+  { name: '라떼4', price: 4500, menuId: 8, img: '/assets/latte.jpeg', isPopular: false },
 ];
 
 const juice = [
-  { name: '쥬스1', price: 4000, id: 9, img: '/assets/juice.jpeg' },
-  { name: '쥬스2', price: 4500, id: 10, img: '/assets/juice.jpeg' },
-  { name: '쥬스3', price: 3000, id: 11, img: '/assets/juice.jpeg' },
-  { name: '쥬스4', price: 4500, id: 12, img: '/assets/juice.jpeg' },
+  { name: '쥬스1', price: 4000, menuId: 9, img: '/assets/juice.jpeg', isPopular: false },
+  { name: '쥬스2', price: 4500, menuId: 10, img: '/assets/juice.jpeg', isPopular: false },
+  { name: '쥬스3', price: 3000, menuId: 11, img: '/assets/juice.jpeg', isPopular: false },
+  { name: '쥬스4', price: 4500, menuId: 12, img: '/assets/juice.jpeg', isPopular: true },
 ];
 
 const tea = [
-  { name: '티1', price: 4000, id: 13, img: '/assets/tea.jpeg' },
-  { name: '티2', price: 4500, id: 14, img: '/assets/tea.jpeg' },
-  { name: '티3', price: 3000, id: 15, img: '/assets/tea.jpeg' },
-  { name: '티4', price: 4500, id: 16, img: '/assets/tea.jpeg' },
+  { name: '티1', price: 4000, menuId: 13, img: '/assets/tea.jpeg', isPopular: true },
+  { name: '티2', price: 4500, menuId: 14, img: '/assets/tea.jpeg', isPopular: false },
+  { name: '티3', price: 3000, menuId: 15, img: '/assets/tea.jpeg', isPopular: false },
+  { name: '티4', price: 4500, menuId: 16, img: '/assets/tea.jpeg', isPopular: false },
 ];
 
 const decaf = [
-  { name: '디카페인1', price: 4000, id: 17, img: '/assets/decaf.jpeg' },
-  { name: '디카페인2', price: 4500, id: 18, img: '/assets/decaf.jpeg' },
-  { name: '디카페인3', price: 3000, id: 19, img: '/assets/decaf.jpeg' },
-  { name: '디카페인4', price: 4500, id: 20, img: '/assets/decaf.jpeg' },
+  { name: '디카페인1', price: 4000, menuId: 17, img: '/assets/decaf.jpeg', isPopular: true },
+  { name: '디카페인2', price: 4500, menuId: 18, img: '/assets/decaf.jpeg', isPopular: false },
+  { name: '디카페인3', price: 3000, menuId: 19, img: '/assets/decaf.jpeg', isPopular: false },
+  { name: '디카페인4', price: 4500, menuId: 20, img: '/assets/decaf.jpeg', isPopular: false },
 ];
 
 const menu1 = {
@@ -65,9 +65,27 @@ const menu3 = {
 };
 
 const menu4 = {
-  name: '카페라떼',
+  name: '카페모카',
   price: 4500,
   img: '/assets/caffe-mocha.jpeg',
+  option: { size: ['big', 'small'], temperature: ['hot', 'ice'] },
+  sizeCost: 500,
+  iceCost: 500,
+};
+
+const menu5 = {
+  name: '카페라떼',
+  price: 4500,
+  img: '/assets/latte.jpeg',
+  option: { size: ['big', 'small'], temperature: ['hot', 'ice'] },
+  sizeCost: 500,
+  iceCost: 500,
+};
+
+const menu6 = {
+  name: '카푸치노',
+  price: 4500,
+  img: '/assets/cappuccino.jpeg',
   option: { size: ['big', 'small'], temperature: ['hot', 'ice'] },
   sizeCost: 500,
   iceCost: 500,
@@ -106,6 +124,12 @@ const handlers = [
   }),
   rest.get('/api/carts/4', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(menu4));
+  }),
+  rest.get('/api/carts/5', (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(menu5));
+  }),
+  rest.get('/api/carts/6', (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(menu6));
   }),
   // 결제 관련
   rest.post('/api/payments', (req, res, ctx) => {

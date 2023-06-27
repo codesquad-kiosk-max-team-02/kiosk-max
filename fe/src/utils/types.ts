@@ -5,8 +5,9 @@ export interface Menu {
 export interface Product {
   name: string;
   price: number;
-  id: number;
+  menuId: number;
   img: string;
+  isPopular: boolean;
 }
 
 export type OrderData = {

@@ -77,7 +77,7 @@ export function AddMenu({
 
     setOrderList((prevOrderList): any => [
       {
-        menuId: Number(menuId),
+        menuId: menuId,
         option: { size: sizeNum, temperature: temperatureNum },
         quantity: count,
         price: price,
