@@ -1,6 +1,7 @@
 package com.codesquad.kiosk.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
@@ -10,4 +11,10 @@ public class OrderMenu {
     Integer orderId;
     Integer menuId;
     Integer quantity;
+
+    @Builder
+    public OrderMenu(Integer menuId, Integer quantity) {
+        this.menuId = menuId;
+        this.quantity = quantity;
+    }
 }
