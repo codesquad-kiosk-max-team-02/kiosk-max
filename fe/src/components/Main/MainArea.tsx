@@ -52,7 +52,11 @@ export function MainArea({
         ))}
         {isModalOpen && selectedProduct !== null && (
           <Modal addModalCloseHandler={addModalCloseHandler}>
-            <AddMenu menuId={selectedProduct.id} setOrderList={setOrderList} />
+            <AddMenu
+              menuId={selectedProduct.id}
+              setOrderList={setOrderList}
+              addModalCloseHandler={addModalCloseHandler}
+            />
           </Modal>
         )}
       </main>

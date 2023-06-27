@@ -7,9 +7,11 @@ import { OptionButton } from './OptionButton';
 export function AddMenu({
   menuId,
   setOrderList,
+  addModalCloseHandler,
 }: {
   menuId: number;
   setOrderList: React.Dispatch<React.SetStateAction<never[]>>;
+  addModalCloseHandler: () => void;
 }) {
   const [count, setCount] = useState(1);
   const [temperature, setTemperature] = useState<string | null>(null);
@@ -43,8 +45,12 @@ export function AddMenu({
 
   function calculateAdditionalCost() {
     let additionalCost = 0;
-    if (temperature === 'ice') additionalCost += modalInfo.iceCost;
-    if (size === 'big') additionalCost += modalInfo.sizeCost;
+    if (temperature === 'ice') {
+      additionalCost += modalInfo.iceCost;
+    }
+    if (size === 'big') {
+      additionalCost += modalInfo.sizeCost;
+    }
     return additionalCost;
   }
 
@@ -78,6 +84,8 @@ export function AddMenu({
       },
       ...prevOrderList,
     ]);
+
+    addModalCloseHandler();
   }
 
   return (
