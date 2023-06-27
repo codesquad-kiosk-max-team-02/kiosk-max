@@ -11,7 +11,7 @@ export function AddMenu({
   addModalCloseHandler,
 }: {
   menuId: number;
-  setOrderList: React.Dispatch<React.SetStateAction<never[]>>;
+  setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
   addModalCloseHandler: () => void;
 }) {
   const [count, setCount] = useState(1);

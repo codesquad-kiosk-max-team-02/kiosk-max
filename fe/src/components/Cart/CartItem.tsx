@@ -1,9 +1,15 @@
 import classes from './CartItem.module.css';
 import { OrderData } from '../../utils/types';
 
-export function CartItem({ orderData }: { orderData: OrderData }) {
-  function getMenuName() {
-    switch (orderData.menuId) {
+export function CartItem({
+  orderData,
+  setOrderList,
+}: {
+  orderData: OrderData;
+  setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
+}) {
+  function getMenuName(menuId: number) {
+    switch (menuId) {
       case 1:
         return '아메리카노';
       case 2:
@@ -26,13 +32,23 @@ export function CartItem({ orderData }: { orderData: OrderData }) {
     }
   }
 
+  function handleClick() {
+    setOrderList((prevOrderList) => {
+      return prevOrderList.filter(
+        (order) =>
+          order.menuId !== orderData.menuId ||
+          order.option.size !== orderData.option.size ||
+          order.option.temperature !== orderData.option.temperature,
+      );
+    });
+  }
+
   return (
     <li className={classes.item}>
-      <button>X</button>
-      <div className="name">{getMenuName()}</div>
+      <button onClick={handleClick}>X</button>
+      <div className="name">{getMenuName(orderData.menuId)}</div>
       <div className="size">{orderData.option.size === 1 ? 'S' : 'L'}</div>
       <div className="temp">{orderData.option.temperature === 1 ? 'HOT' : 'ICE'}</div>
-      {/* <div className="price">4000</div> */}
       <div className="count">{orderData.quantity}</div>
     </li>
   );

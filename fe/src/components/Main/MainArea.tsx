@@ -1,4 +1,4 @@
-import { Product } from '../../utils/types';
+import { OrderData, Product } from '../../utils/types';
 import { Card } from './Card';
 import { useState } from 'react';
 import classes from './MainArea.module.css';
@@ -10,7 +10,7 @@ export function MainArea({
   setOrderList,
 }: {
   productList: Product[];
-  setOrderList: React.Dispatch<React.SetStateAction<never[]>>;
+  setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
