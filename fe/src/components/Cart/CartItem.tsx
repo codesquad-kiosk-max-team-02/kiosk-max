@@ -49,7 +49,9 @@ export function CartItem({
       <div className="name">{getMenuName(orderData.menuId)}</div>
       <div className="size">{orderData.option.size === 1 ? 'S' : 'L'}</div>
       <div className="temp">{orderData.option.temperature === 1 ? 'HOT' : 'ICE'}</div>
-      <div className="count">{orderData.quantity}</div>
+      <div className={classes.count}>
+        <span>{orderData.quantity}</span>
+      </div>
     </li>
   );
 }
