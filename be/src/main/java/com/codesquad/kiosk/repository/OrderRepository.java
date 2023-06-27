@@ -28,12 +28,32 @@ public class OrderRepository {
     }
 
     @Transactional
-    public void saveOrder(int orderNumber) {
+    public void saveOrder(int orderNumber, OrderMenu orderMenu, int[] optionList) {
         // Orders Insert
         String insertOrderQuery = "INSERT INTO ORDERS(ORDER_NUMBER) VALUES(:order_number)";
         SqlParameterSource orderParameters = new MapSqlParameterSource("order_number", orderNumber);
         KeyHolder orderKeyHolder = new GeneratedKeyHolder();
         namedParameterJdbcTemplate.update(insertOrderQuery, orderParameters, orderKeyHolder);
+        int orderId = orderKeyHolder.getKey().intValue();
+
+        // OrderMenu Insert
+        String insertMenuOrderQuery = "INSERT INTO ORDER_MENU(ORDER_ID, MENU_ID, QUANTITY) VALUES(:order_id, :menu_id, :quantity)";
+        SqlParameterSource menuOrderParameters = new MapSqlParameterSource()
+                .addValue("order_id", orderId)
+                .addValue("menu_id", orderMenu.getMenuId())
+                .addValue("quantity", orderMenu.getQuantity());
+        namedParameterJdbcTemplate.update(insertMenuOrderQuery, menuOrderParameters);
+
+        // Option Insert
+
+        String insertOrderMenuOptionQuery = "INSERT INTO ORDER_MENU_OPTION(ORDER_MENU_ID, OPTION_ID) VALUES(:order_id, :option_id)";
+        for(int i = 0 ; i<optionList.length; i++){
+            SqlParameterSource orderMenuOptionParameters = new MapSqlParameterSource()
+                    .addValue("order_id",orderId)
+                    .addValue("option_id",optionList[i]);
+            namedParameterJdbcTemplate.update(insertOrderMenuOptionQuery,orderMenuOptionParameters);
+        }
+
     }
 
     private RowMapper<Order> orderRowMapper () {

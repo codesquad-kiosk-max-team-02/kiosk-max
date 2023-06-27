@@ -26,8 +26,13 @@ public class OrderService {
         String now = createNowDateformat();
         Order order = orderRepository.getOrder().orElse(Order.builder().orderTime(now).orderNumber(0).build());
         OrderNumberCreatorDto dto = new OrderNumberCreatorDto(order.getOrderTime(),order.getOrderNumber());
-        orderRepository.saveOrder(createOrderNumber(dto,now));
-
+        for(int i = 0; i<orderRequestDto.getOrderList().size(); i++){
+            OrderMenu orderMenu = OrderMenu.builder()
+                    .menuId(orderRequestDto.getOrderList().get(i).getMenuId())
+                    .quantity(orderRequestDto.getOrderList().get(i).getQuantity())
+                    .build();
+            orderRepository.saveOrder(createOrderNumber(dto,now),orderMenu,orderRequestDto.getOrderList().get(i).getOption());
+        }
     }
 
 
