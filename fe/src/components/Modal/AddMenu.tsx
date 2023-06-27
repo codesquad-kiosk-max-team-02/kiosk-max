@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import classes from './AddMenu.module.css';
 import { OptionButton } from './OptionButton';
 import { OrderData } from '../../utils/types';
+import { useSleep } from '../../utils/customHook';
 
 /* 여기에서 바뀐 수량, 가격 정보 같은걸 가지고 있어야 함 => 장바구니에 내려주기 위해 */
 
@@ -20,6 +21,7 @@ export function AddMenu({
   const [loading, setLoading] = useState(false);
   const [modalInfo, setModalInfo] = useState<any>({});
   const [price, setPrice] = useState<number>(modalInfo.price);
+  const [isAnimated, setIsAnimated] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -72,7 +74,12 @@ export function AddMenu({
 
   const isActive = temperature && size;
 
-  function handleSubmit() {
+  async function handleSubmit() {
+    setIsAnimated(true);
+
+    await useSleep(600);
+
+    addModalCloseHandler();
     const sizeNum = size === 'big' ? 2 : 1;
     const temperatureNum = temperature === 'ice' ? 2 : 1;
 
@@ -107,15 +114,17 @@ export function AddMenu({
         ...prevOrderList,
       ];
     });
-
-    addModalCloseHandler();
   }
 
   return (
     <>
       <div className={classes.menuLayout}>
         <div className={classes.menuCard}>
-          <img className={classes.img} src={modalInfo.img} alt={modalInfo.name} />
+          <img
+            className={isAnimated ? `${classes.img} ${classes.animation}` : classes.img}
+            src={modalInfo.img}
+            alt={modalInfo.name}
+          />
           <p>{modalInfo.name}</p>
           <p>{price}</p>
         </div>
