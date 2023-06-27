@@ -14,7 +14,7 @@ function App() {
 
   useEffect(() => {
     setLoading(true);
-    fetch('/api/menus')
+    fetch('/api/categories')
       .then((res) => res.json())
       .then((data) => {
         setMenuList(data);
@@ -24,7 +24,7 @@ function App() {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`api/products/${activeTab}`)
+    fetch(`api/menus/${activeTab}`)
       .then((res) => res.json())
       .then((data) => {
         setProductList(data);
