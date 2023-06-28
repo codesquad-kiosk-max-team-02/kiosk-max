@@ -37,10 +37,14 @@ public class OrderService {
         return amount;
     }
 
-    public CardPaymentResponseDto cardPay(OrderRequestDto orderRequestDto){
+    public CardPaymentResponseDto cardPay(int totalPay,OrderRequestDto orderRequestDto){
+        String now = createNowDateformat();
+        Order order = orderRepository.getOrder().orElse(Order.builder().orderTime(now).orderNumber(0).build());
+        OrderNumberCreatorDto dto = new OrderNumberCreatorDto(order.getOrderTime(),order.getOrderNumber());
         return new CardPaymentResponseDto(
+                createOrderNumber(dto,now),
+                totalPay,
                 orderRequestDto.getNumber(),
-                calculateOrder(orderRequestDto),
                 Boolean.TRUE
         );
     }
@@ -80,8 +84,10 @@ public class OrderService {
         return orderRepository.getReceiptByOrderId(orderId);
     }
 
-    public CashPaymentResponseDto cashPayment( OrderRequestDto requestDto ) {
-        int totalPay = calculateOrder(requestDto);
+    public CashPaymentResponseDto cashPayment( int totalPay,OrderRequestDto requestDto ) {
+        String now = createNowDateformat();
+        Order order = orderRepository.getOrder().orElse(Order.builder().orderTime(now).orderNumber(0).build());
+        OrderNumberCreatorDto dto = new OrderNumberCreatorDto(order.getOrderTime(),order.getOrderNumber());
         int inputMoney = requestDto.getNumber();
         int changes = inputMoney - totalPay;
         return CashPaymentResponseDto
@@ -89,6 +95,7 @@ public class OrderService {
                 .totalPay(totalPay)
                 .changes(changes)
                 .result(true)
+                .orderNumber(createOrderNumber(dto,now))
                 .build();
     }
     private boolean random() {
