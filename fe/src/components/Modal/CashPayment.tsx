@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import classes from './CashPayment.module.css';
 
+import Link from '../Link';
+
 export function CashPayment({ totalPrice }: { totalPrice: number }) {
   /* 버튼 네개
   총액 <안변함
@@ -41,15 +43,17 @@ export function CashPayment({ totalPrice }: { totalPrice: number }) {
           <span>{inputCash} 원</span>
         </span>
       </div>
-      <button
-        className={`${classes.paymentBtn} ${isActive ? classes.active : ''}`}
-        disabled={!isActive}
-        onClick={() => {
-          console.log('현금결제');
-        }}
-      >
-        현금결제하기
-      </button>
+      <Link href="/receipt">
+        <button
+          className={`${classes.paymentBtn} ${isActive ? classes.active : ''}`}
+          disabled={!isActive}
+          onClick={() => {
+            console.log('현금결제');
+          }}
+        >
+          현금결제하기
+        </button>
+      </Link>
     </>
   );
 }
