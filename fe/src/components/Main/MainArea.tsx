@@ -4,37 +4,21 @@ import { useState } from 'react';
 import classes from './MainArea.module.css';
 import { Modal } from '../Modal/Modal';
 import { AddMenu } from '../Modal/AddMenu';
-
 export function MainArea({
   productList,
   setOrderList,
-  modalContent,
-  isModalOpen,
-  addModalOpenHandler,
-  addModalCloseHandler,
 }: {
   productList: Product[];
   setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
-  modalContent: any;
-  isModalOpen: boolean;
-  addModalOpenHandler: (content: any) => void;
-  addModalCloseHandler: () => void;
 }) {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
+  const isModalOpen = !!selectedProduct;
+
   function menuCardClickHandler(menuId: number) {
     const product = productList.find((item) => item.menuId === menuId);
-
     if (product) {
       setSelectedProduct(product);
-      addModalOpenHandler(
-        <AddMenu
-          menuId={menuId}
-          setOrderList={setOrderList}
-          setSelectedProduct={setSelectedProduct}
-          addModalCloseHandler={addModalCloseHandler}
-        />,
-      );
     }
   }
 
@@ -52,13 +36,15 @@ export function MainArea({
           />
         ))}
         {isModalOpen && selectedProduct !== null && (
-          // <Modal addModalCloseHandler={addModalCloseHandler}>{modalContent}</Modal>
-          <Modal addModalCloseHandler={addModalCloseHandler}>
+          <Modal
+            closeHandler={() => {
+              setSelectedProduct(null);
+            }}
+          >
             <AddMenu
               menuId={selectedProduct.menuId}
               setOrderList={setOrderList}
               setSelectedProduct={setSelectedProduct}
-              addModalCloseHandler={addModalCloseHandler}
             />
           </Modal>
         )}

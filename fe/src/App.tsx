@@ -11,46 +11,7 @@ function App() {
   const [menuList, setMenuList] = useState([]);
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(false);
-
   const [orderList, setOrderList] = useState<OrderData[]>([]);
-  const [isAddMenuModalOpen, setIsAddMenuModalOpen] = useState(false);
-  const [addMenuModalContent, setAddMenuModalContent] = useState(null);
-  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
-  const [paymentModalContent, setPaymentModalContent] = useState(null);
-
-  function addPaymentModalOpenHandler(content: any) {
-    if (isPaymentModalOpen) {
-      return;
-    }
-    setIsPaymentModalOpen(true);
-    setPaymentModalContent(content);
-  }
-
-  function addPaymentModalCloseHandler() {
-    if (!isPaymentModalOpen) {
-      return;
-    }
-
-    setIsPaymentModalOpen(false);
-    setPaymentModalContent(null);
-  }
-
-  function addMenuModalOpenHandler(content: any) {
-    if (isAddMenuModalOpen) {
-      return;
-    }
-    setIsAddMenuModalOpen(true);
-    setAddMenuModalContent(content);
-  }
-
-  function addMenuModalCloseHandler() {
-    if (!isAddMenuModalOpen) {
-      return;
-    }
-
-    setIsAddMenuModalOpen(false);
-    setAddMenuModalContent(null);
-  }
 
   useEffect(() => {
     setLoading(true);
@@ -72,25 +33,15 @@ function App() {
       });
   }, [activeTab]);
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className={classes.kiosk}>
       <TabMenu menuList={menuList} activeTab={activeTab} setActiveTab={setActiveTab} />
-      <MainArea
-        productList={productList}
-        setOrderList={setOrderList}
-        modalContent={addMenuModalContent}
-        isModalOpen={isAddMenuModalOpen}
-        addModalOpenHandler={addMenuModalOpenHandler}
-        addModalCloseHandler={addMenuModalCloseHandler}
-      />
-      <Cart
-        orderList={orderList}
-        setOrderList={setOrderList}
-        modalContent={paymentModalContent}
-        isModalOpen={isPaymentModalOpen}
-        addModalOpenHandler={addPaymentModalOpenHandler}
-        addModalCloseHandler={addPaymentModalCloseHandler}
-      />
+      <MainArea productList={productList} setOrderList={setOrderList} />
+      <Cart orderList={orderList} setOrderList={setOrderList} />
     </div>
   );
 }

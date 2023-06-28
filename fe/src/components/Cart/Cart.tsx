@@ -1,4 +1,6 @@
 import { OrderData } from '../../utils/types';
+import { CardPayment } from '../Modal/CardPayment';
+import { CashPayment } from '../Modal/CashPayment';
 import { Modal } from '../Modal/Modal';
 import { Payment } from '../Modal/Payment';
 import classes from './Cart.module.css';
@@ -8,21 +10,15 @@ import { useEffect, useState } from 'react';
 export function Cart({
   orderList,
   setOrderList,
-  modalContent,
-  isModalOpen,
-  addModalOpenHandler,
-  addModalCloseHandler,
 }: {
   orderList: OrderData[];
   setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
-  modalContent: any;
-  isModalOpen: boolean;
-  addModalOpenHandler: (content: any) => void;
-  addModalCloseHandler: () => void;
 }) {
   const [totalPrice, setTotalPrice] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [isPayProcessing, setIsPayProcessing] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState<string>('');
 
   useEffect(() => {
     calculateTotalPrice();
@@ -61,12 +57,13 @@ export function Cart({
     setOrderList([]);
   }
 
-  function payBtnClickHandler(content: React.ReactNode) {
+  function payBtnClickHandler() {
     if (totalPrice === 0) {
       return;
     }
+    setIsModalOpen(true);
+    setModalContent('payment');
     setIsPayProcessing(true);
-    addModalOpenHandler(content);
   }
 
   const isPayBtnActive = totalPrice > 0;
@@ -100,7 +97,7 @@ export function Cart({
             <button
               className={`${classes.payBtn} ${isPayBtnActive ? classes.active : ''}`}
               onClick={() => {
-                payBtnClickHandler(<Payment addModalOpenHandler={addModalOpenHandler} />);
+                payBtnClickHandler();
               }}
             >
               결제하기
@@ -108,7 +105,24 @@ export function Cart({
           </div>
         </div>
       </div>
-      {isModalOpen && <Modal addModalCloseHandler={addModalCloseHandler}>{modalContent}</Modal>}
+      {isModalOpen && (
+        <Modal
+          closeHandler={() => {
+            setIsModalOpen(false);
+            setModalContent('');
+          }}
+        >
+          {modalContent === 'payment' ? (
+            <Payment setModalContent={setModalContent} />
+          ) : modalContent === 'card' ? (
+            <CardPayment />
+          ) : modalContent === 'cash' ? (
+            <CashPayment />
+          ) : (
+            <div>Error!</div>
+          )}
+        </Modal>
+      )}
     </>
   );
 }

@@ -1,14 +1,12 @@
-import { CardPayment } from './CardPayment';
-import { CashPayment } from './CashPayment';
 import classes from './Payment.module.css';
 
-export function Payment({ addModalOpenHandler }: { addModalOpenHandler: (content: any) => void }) {
+export function Payment({ setModalContent }: { setModalContent: React.Dispatch<React.SetStateAction<string>> }) {
   return (
     <>
       <button
         className={classes.payBtn}
         onClick={() => {
-          addModalOpenHandler(<CardPayment />);
+          setModalContent('card');
         }}
       >
         카드 결제
@@ -16,7 +14,7 @@ export function Payment({ addModalOpenHandler }: { addModalOpenHandler: (content
       <button
         className={classes.payBtn}
         onClick={() => {
-          addModalOpenHandler(<CashPayment />);
+          setModalContent('cash');
         }}
       >
         현금 결제

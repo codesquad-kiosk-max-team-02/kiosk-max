@@ -11,17 +11,15 @@ export function AddMenu({
   menuId,
   setOrderList,
   setSelectedProduct,
-  addModalCloseHandler,
 }: {
   menuId: number;
   setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
   setSelectedProduct: React.Dispatch<React.SetStateAction<Product | null>>;
-  addModalCloseHandler: () => void;
 }) {
   const [count, setCount] = useState(1);
   const [temperature, setTemperature] = useState<string | null>(null);
   const [size, setSize] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [modalInfo, setModalInfo] = useState<any>({});
   const [price, setPrice] = useState<number>(modalInfo.price);
   const [isAnimated, setIsAnimated] = useState(false);
@@ -43,7 +41,7 @@ export function AddMenu({
     return () => {
       isMounted = false;
     };
-  }, [menuId]);
+  }, []);
 
   useEffect(() => {
     setPrice(modalInfo.price + calculateAdditionalCost());
@@ -85,8 +83,6 @@ export function AddMenu({
     await useSleep(600);
 
     setSelectedProduct(null);
-    // setIsAddMenuModalOpen(true);
-    // addModalCloseHandler();
 
     const sizeNum = size === 'big' ? 2 : 1;
     const temperatureNum = temperature === 'ice' ? 2 : 1;
@@ -118,6 +114,10 @@ export function AddMenu({
         ...prevOrderList,
       ];
     });
+  }
+
+  if (loading) {
+    return <div>Loading...</div>;
   }
 
   return (
