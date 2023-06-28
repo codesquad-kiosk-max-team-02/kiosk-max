@@ -5,14 +5,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import com.codesquad.kiosk.dto.*;
 import org.springframework.stereotype.Service;
 
 import com.codesquad.kiosk.domain.Order;
 import com.codesquad.kiosk.domain.OrderMenu;
-import com.codesquad.kiosk.dto.OrderItem;
-import com.codesquad.kiosk.dto.OrderNumberCreatorDto;
-import com.codesquad.kiosk.dto.OrderRequestDto;
-import com.codesquad.kiosk.dto.ReceiptDto;
 import com.codesquad.kiosk.repository.OrderRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -74,5 +71,17 @@ public class OrderService {
   
     public ReceiptDto getReceiptByOrderId(Integer orderId) {
         return orderRepository.getReceiptByOrderId(orderId);
+    }
+
+    public CashPaymentResponseDto cashPayment( OrderRequestDto requestDto ) {
+        int totalPay = calculateOrder(requestDto);
+        int inputMoney = requestDto.getNumber();
+        int changes = inputMoney - totalPay;
+        return  CashPaymentResponseDto
+                .builder()
+                .totalPay(totalPay)
+                .changes(changes)
+                .result(true)
+                .build();
     }
 }
