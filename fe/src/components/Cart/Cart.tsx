@@ -117,7 +117,7 @@ export function Cart({
           ) : modalContent === 'card' ? (
             <CardPayment />
           ) : modalContent === 'cash' ? (
-            <CashPayment />
+            <CashPayment totalPrice={totalPrice} />
           ) : (
             <div>Error!</div>
           )}
