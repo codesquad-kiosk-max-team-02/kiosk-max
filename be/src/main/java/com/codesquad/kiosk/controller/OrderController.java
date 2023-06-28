@@ -1,5 +1,6 @@
 package com.codesquad.kiosk.controller;
 
+import com.codesquad.kiosk.dto.PaymentFailedDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,8 @@ import com.codesquad.kiosk.service.OrderService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 @RestController
 @RequiredArgsConstructor
 public class OrderController {
@@ -25,7 +28,14 @@ public class OrderController {
     @PostMapping("api/payments/{method}")
     public ResponseEntity pay(@PathVariable String method, @RequestBody OrderRequestDto orderRequestDto) {
         int amountOfPay = orderService.calculateOrder(orderRequestDto);
-        return null;
+        PaymentFailedDto paymentFailedDto = orderService.paymentFail(amountOfPay);
+
+        return Optional.ofNullable(paymentFailedDto)
+                .map(dto -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(dto))
+                .orElseGet(() -> {
+                    // 카드 결제 성공 시 로직
+                    return ResponseEntity.status(HttpStatus.OK).body(null);
+                });
     }
 
     @ApiOperation(value = "개별 주문 상세 조회")

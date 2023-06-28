@@ -5,14 +5,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import com.codesquad.kiosk.dto.*;
 import org.springframework.stereotype.Service;
 
 import com.codesquad.kiosk.domain.Order;
 import com.codesquad.kiosk.domain.OrderMenu;
-import com.codesquad.kiosk.dto.OrderItem;
-import com.codesquad.kiosk.dto.OrderNumberCreatorDto;
-import com.codesquad.kiosk.dto.OrderRequestDto;
-import com.codesquad.kiosk.dto.ReceiptDto;
 import com.codesquad.kiosk.repository.OrderRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -74,5 +71,21 @@ public class OrderService {
   
     public ReceiptDto getReceiptByOrderId(Integer orderId) {
         return orderRepository.getReceiptByOrderId(orderId);
+    }
+
+    private boolean random() {
+        double failureRate = 0.1;
+        return Math.random() > failureRate;
+    }
+
+    public PaymentFailedDto paymentFail(int amountOfPay) {
+        int cardLimit = 50000;
+        if (!random()) {
+            return new PaymentFailedDto("IC 카드 인식 오류");
+        }
+        if (amountOfPay > cardLimit) {
+            return new PaymentFailedDto("한도초과");
+        }
+        return null;
     }
 }
