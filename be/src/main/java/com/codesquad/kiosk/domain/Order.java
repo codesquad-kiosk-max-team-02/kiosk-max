@@ -1,14 +1,20 @@
 package com.codesquad.kiosk.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
-import java.sql.Timestamp;
 
 @Getter
 @AllArgsConstructor
 public class Order {
     Integer id;
     Integer orderNumber;
-    Timestamp orderTime;
+    String orderTime;
+
+    @Builder
+    public Order(Integer orderNumber, String orderTime) {
+        this.orderNumber = orderNumber;
+        this.orderTime = orderTime;
+    }
 }
