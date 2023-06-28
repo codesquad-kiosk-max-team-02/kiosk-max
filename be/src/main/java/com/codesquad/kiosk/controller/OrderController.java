@@ -26,15 +26,21 @@ public class OrderController {
 
     @ApiOperation(value = "결제")
     @PostMapping("api/payments/{method}")
-    public ResponseEntity pay(@PathVariable String method, @RequestBody OrderRequestDto orderRequestDto) {
+    public ResponseEntity<?> pay(@PathVariable String method, @RequestBody OrderRequestDto orderRequestDto) {
         int amountOfPay = orderService.calculateOrder(orderRequestDto);
         PaymentFailedDto paymentFailedDto = orderService.paymentFail(amountOfPay);
+        if(method.equals("cash")) {
+            orderService.saveOrder(orderRequestDto);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(orderService.cashPayment(amountOfPay,orderRequestDto));
+        }
 
         return Optional.ofNullable(paymentFailedDto)
-                .map(dto -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(dto))
+                .<ResponseEntity<?>>map(dto -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(dto))
                 .orElseGet(() -> {
-                    // 카드 결제 성공 시 로직
-                    return ResponseEntity.status(HttpStatus.OK).body(null);
+                    orderService.saveOrder(orderRequestDto);
+                    return ResponseEntity.status(HttpStatus.OK)
+                        .body(orderService.cardPay(amountOfPay,orderRequestDto));
                 });
     }
 
