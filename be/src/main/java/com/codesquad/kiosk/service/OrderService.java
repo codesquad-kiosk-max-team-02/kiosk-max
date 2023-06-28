@@ -59,16 +59,14 @@ public class OrderService {
         }
     }
 
-
-
     private int createOrderNumber(OrderNumberCreatorDto dto,String now) {
         String storedDate = dto.getDate();
         int orderNumber = dto.getOrderNumber();
         String currentDate = storedDate.split(" ")[0];
         if(!now.equals(currentDate)) {
-            return 1;
+            return 0;
         }
-        return orderNumber+1;
+        return orderNumber;
     }
 
     private String createNowDateformat() {
