@@ -30,14 +30,17 @@ public class OrderRepository {
         return list.stream().findFirst();
     }
 
-    @Transactional
-    public void saveOrder(int orderNumber, OrderMenu orderMenu, int[] optionList) {
+    public int insertOrder (int orderNumber) {
         // Orders Insert
         String insertOrderQuery = "INSERT INTO ORDERS(ORDER_NUMBER) VALUES(:order_number)";
         SqlParameterSource orderParameters = new MapSqlParameterSource("order_number", orderNumber);
         KeyHolder orderKeyHolder = new GeneratedKeyHolder();
         namedParameterJdbcTemplate.update(insertOrderQuery, orderParameters, orderKeyHolder);
-        int orderId = orderKeyHolder.getKey().intValue();
+        return  orderKeyHolder.getKey().intValue();
+    }
+
+    @Transactional
+    public void saveOrder( int orderId ,OrderMenu orderMenu, int[] optionList) {
 
         // OrderMenu Insert
         String insertMenuOrderQuery = "INSERT INTO ORDER_MENU(ORDER_ID, MENU_ID, QUANTITY) VALUES(:order_id, :menu_id, :quantity)";
