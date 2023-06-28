@@ -5,14 +5,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import com.codesquad.kiosk.dto.*;
 import org.springframework.stereotype.Service;
 
 import com.codesquad.kiosk.domain.Order;
 import com.codesquad.kiosk.domain.OrderMenu;
-import com.codesquad.kiosk.dto.OrderItem;
-import com.codesquad.kiosk.dto.OrderNumberCreatorDto;
-import com.codesquad.kiosk.dto.OrderRequestDto;
-import com.codesquad.kiosk.dto.ReceiptDto;
 import com.codesquad.kiosk.repository.OrderRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -38,6 +35,14 @@ public class OrderService {
             amount += orderPrice;
         }
         return amount;
+    }
+
+    public CardPaymentResponseDto cardPay(OrderRequestDto orderRequestDto){
+        return new CardPaymentResponseDto(
+                orderRequestDto.getNumber(),
+                calculateOrder(orderRequestDto),
+                Boolean.TRUE
+        );
     }
 
     public void saveOrder(OrderRequestDto orderRequestDto) {
