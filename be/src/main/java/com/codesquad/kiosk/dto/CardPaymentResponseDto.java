@@ -8,6 +8,7 @@ import lombok.Getter;
 public class CardPaymentResponseDto{
     Integer orderNumber;
     Integer totalPay;
+    Integer cardNumber;
     Boolean result;
 
 }

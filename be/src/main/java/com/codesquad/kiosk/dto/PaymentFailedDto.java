@@ -1,5 +1,7 @@
 package com.codesquad.kiosk.dto;
 
+import lombok.Getter;
+@Getter
 public class PaymentFailedDto {
 
     private boolean result;
