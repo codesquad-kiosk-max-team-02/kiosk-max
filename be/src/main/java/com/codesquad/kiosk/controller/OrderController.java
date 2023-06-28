@@ -1,18 +1,19 @@
 package com.codesquad.kiosk.controller;
 
-import com.codesquad.kiosk.dto.CategoryResponseDto;
-import com.codesquad.kiosk.dto.ReceiptDto;
-import com.codesquad.kiosk.service.OrderService;
-import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.codesquad.kiosk.dto.OrderRequestDto;
+import com.codesquad.kiosk.dto.ReceiptDto;
+import com.codesquad.kiosk.service.OrderService;
+
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,7 +23,8 @@ public class OrderController {
 
     @ApiOperation(value = "결제")
     @PostMapping("api/payments/{method}")
-    public ResponseEntity pay(@PathVariable String method) {
+    public ResponseEntity pay(@PathVariable String method, @RequestBody OrderRequestDto orderRequestDto) {
+        int amountOfPay = orderService.calculateOrder(orderRequestDto);
         return null;
     }
 
