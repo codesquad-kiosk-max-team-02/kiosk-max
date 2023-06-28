@@ -1,4 +1,3 @@
-import React, { ReactNode } from 'react';
 import classes from './Modal.module.css';
 
 interface ModalProps {
