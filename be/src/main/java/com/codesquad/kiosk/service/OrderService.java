@@ -76,7 +76,7 @@ public class OrderService {
         String formattedDate = date.format(formatter);
         return formattedDate;
     }
-  
+
     public ReceiptDto getReceiptByOrderId(Integer orderId) {
         return orderRepository.getReceiptByOrderId(orderId);
     }
@@ -85,13 +85,13 @@ public class OrderService {
         int totalPay = calculateOrder(requestDto);
         int inputMoney = requestDto.getNumber();
         int changes = inputMoney - totalPay;
-        return  CashPaymentResponseDto
+        return CashPaymentResponseDto
                 .builder()
                 .totalPay(totalPay)
                 .changes(changes)
                 .result(true)
                 .build();
-
+    }
     private boolean random() {
         double failureRate = 0.1;
         return Math.random() > failureRate;
