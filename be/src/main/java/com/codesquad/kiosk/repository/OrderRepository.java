@@ -6,10 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import com.codesquad.kiosk.domain.Order;
 import com.codesquad.kiosk.domain.OrderMenu;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -81,5 +80,24 @@ public class OrderRepository {
                         rs.getInt("quantity"))
         ));
     }
-  
+
+	public Integer getOptionPrice(int menuId, int optionId) {
+        String sql = "SELECT IFNULL(MAX(PRICE), 0) PRICE FROM OPTIONS WHERE ID = :optionId "
+            + "AND (SELECT COUNT(OPTION_CATEGORY_ID) FROM OPTIONS "
+            + "INNER JOIN MENU_OPTION ON OPTIONS.ID = MENU_OPTION.OPTION_ID "
+            + "WHERE MENU_ID = :menuId AND OPTION_CATEGORY_ID = (SELECT OPTION_CATEGORY_ID FROM OPTIONS "
+            + "INNER JOIN MENU_OPTION ON OPTIONS.ID = MENU_OPTION.OPTION_ID "
+            + "WHERE  MENU_OPTION.MENU_ID = :menuId AND MENU_OPTION.OPTION_ID = :optionId)) > 1";
+        SqlParameterSource param = new MapSqlParameterSource()
+            .addValue("menuId", menuId)
+            .addValue("optionId", optionId);
+        return namedParameterJdbcTemplate.queryForObject(sql, param, Integer.class);
+	}
+
+    public Integer getMenuPrice(int menuId) {
+        String sql = "SELECT PRICE FROM MENU WHERE ID = :menuId";
+        SqlParameterSource param = new MapSqlParameterSource()
+            .addValue("menuId", menuId);
+        return namedParameterJdbcTemplate.queryForObject(sql, param, Integer.class);
+    }
 }
