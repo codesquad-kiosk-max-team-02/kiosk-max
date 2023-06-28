@@ -1,6 +1,7 @@
 package com.codesquad.kiosk.controller;
 
 import com.codesquad.kiosk.dto.CategoryResponseDto;
+import com.codesquad.kiosk.dto.MenuDetailDto;
 import com.codesquad.kiosk.service.MenuService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +27,13 @@ public class MenuController {
 
     @ApiOperation(value = "개별 메뉴 조회")
     @GetMapping("api/carts/{menuId}")
-    public ResponseEntity getMenuDetail(@PathVariable Integer menuId){
-        return null;
+    public ResponseEntity<MenuDetailDto> getMenuDetail(@PathVariable Integer menuId){
+        try {
+            MenuDetailDto menuDetailDto = menuService.getMenuDetail(menuId);
+            return ResponseEntity.status(HttpStatus.OK).body(menuDetailDto);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
     @ApiOperation(value = "상단 바 출력")
