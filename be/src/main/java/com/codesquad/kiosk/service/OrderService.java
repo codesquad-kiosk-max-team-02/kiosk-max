@@ -1,19 +1,21 @@
 package com.codesquad.kiosk.service;
 
-import com.codesquad.kiosk.dto.CategoryResponseDto;
-import com.codesquad.kiosk.dto.ReceiptDto;
-import com.codesquad.kiosk.domain.Order;
-import com.codesquad.kiosk.domain.OrderMenu;
-import com.codesquad.kiosk.dto.OrderNumberCreatorDto;
-import com.codesquad.kiosk.dto.OrderRequestDto;
-import com.codesquad.kiosk.repository.OrderRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.stream.Collectors;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.codesquad.kiosk.domain.Order;
+import com.codesquad.kiosk.domain.OrderMenu;
+import com.codesquad.kiosk.dto.OrderItem;
+import com.codesquad.kiosk.dto.OrderNumberCreatorDto;
+import com.codesquad.kiosk.dto.OrderRequestDto;
+import com.codesquad.kiosk.dto.ReceiptDto;
+import com.codesquad.kiosk.repository.OrderRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +25,20 @@ public class OrderService {
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+    public int calculateOrder(OrderRequestDto orderRequestDto) {
+        int amount = 0;
+        List<OrderItem> orderItemList = orderRequestDto.getOrderList();
+        for (OrderItem orderItem : orderItemList) {
+            int orderPrice = orderRepository.getMenuPrice(orderItem.getMenuId());
+            int[] option = orderItem.getOption();
+            for (int optionId : option) {
+                orderPrice += orderRepository.getOptionPrice(orderItem.getMenuId(), optionId);
+            }
+            orderPrice *= orderItem.getQuantity();
+            amount += orderPrice;
+        }
+        return amount;
+    }
 
     public void saveOrder(OrderRequestDto orderRequestDto) {
         String now = createNowDateformat();
