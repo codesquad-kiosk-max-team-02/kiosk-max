@@ -83,5 +83,21 @@ public class OrderService {
                 .changes(changes)
                 .result(true)
                 .build();
+
+    private boolean random() {
+        double failureRate = 0.1;
+        return Math.random() > failureRate;
+    }
+
+    public PaymentFailedDto paymentFail(int amountOfPay) {
+        int cardLimit = 50000;
+        if (!random()) {
+            return new PaymentFailedDto("IC 카드 인식 오류");
+        }
+        if (amountOfPay > cardLimit) {
+            return new PaymentFailedDto("한도초과");
+        }
+        return null;
+
     }
 }
