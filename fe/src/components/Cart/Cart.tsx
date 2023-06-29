@@ -99,7 +99,7 @@ export function Cart({
               }}
             />
           ) : modalContent === 'cash' ? (
-            <CashPayment totalPrice={totalPrice} />
+            <CashPayment totalPrice={totalPrice} orderList={orderList} />
           ) : (
             <div>Error!</div>
           )}
