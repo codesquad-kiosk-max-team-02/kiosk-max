@@ -30,17 +30,17 @@ public class OrderController {
         int amountOfPay = orderService.calculateOrder(orderRequestDto);
         PaymentFailedDto paymentFailedDto = orderService.paymentFail(amountOfPay);
         if(method.equals("cash")) {
-            orderService.saveOrder(orderRequestDto);
+            int orderId = orderService.saveOrder(orderRequestDto);
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(orderService.cashPayment(amountOfPay,orderRequestDto));
+                    .body(orderService.paymentResponse(orderId,amountOfPay,orderRequestDto));
         }
 
         return Optional.ofNullable(paymentFailedDto)
                 .<ResponseEntity<?>>map(dto -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(dto))
                 .orElseGet(() -> {
-                    orderService.saveOrder(orderRequestDto);
+                    int orderId = orderService.saveOrder(orderRequestDto);
                     return ResponseEntity.status(HttpStatus.OK)
-                        .body(orderService.cardPay(amountOfPay,orderRequestDto));
+                        .body(orderService.paymentResponse(orderId,amountOfPay,orderRequestDto));
                 });
     }
 
