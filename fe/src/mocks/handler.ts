@@ -90,7 +90,7 @@ const menu2 = {
       optionCategoryType: 'temperature',
       optionId: 4,
       optionName: 'ice',
-      optionPrice: 500,
+      optionPrice: 0,
     },
   ],
 };

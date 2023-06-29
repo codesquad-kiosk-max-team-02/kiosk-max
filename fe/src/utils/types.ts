@@ -17,7 +17,7 @@ export type ModaInfo = {
   option: Option[];
 };
 
-type Option = {
+export type Option = {
   optionCategoryType: string;
   optionId: number;
   optionName: string;
