@@ -2,8 +2,8 @@ import { useState } from 'react';
 import classes from './CashPayment.module.css';
 import { OrderData } from '../../utils/types';
 
-import Link from '../Link';
 import { modifyOrderList } from '../../utils/modifyOrderList';
+import { Link } from '../Link';
 
 export function CashPayment({ totalPrice, orderList }: { totalPrice: number; orderList: OrderData[] }) {
   const [inputCash, setInputCash] = useState(0);
