@@ -4,7 +4,15 @@ import { OrderData } from '../../utils/types';
 
 import { modifyOrderList } from '../../utils/modifyOrderList';
 
-export function CashPayment({ totalPrice, orderList }: { totalPrice: number; orderList: OrderData[] }) {
+export function CashPayment({
+  totalPrice,
+  orderList,
+  setOrderList,
+}: {
+  totalPrice: number;
+  orderList: OrderData[];
+  setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
+}) {
   const [inputCash, setInputCash] = useState(0);
 
   const amounts = [1000, 100, 10000, 500];
@@ -28,10 +36,11 @@ export function CashPayment({ totalPrice, orderList }: { totalPrice: number; ord
     });
     const data = await response.json();
 
+    setOrderList([]);
     if (data.result === true) {
-      window.history.pushState(data, '', '/receipt');
-      const navEvent = new PopStateEvent('popstate');
-      window.dispatchEvent(navEvent);
+      window.history.pushState({ ...data, paymentType: '현금', inputMoney: inputCash }, '', '/receipt');
+      const paymentEvent = new PopStateEvent('popstate');
+      window.dispatchEvent(paymentEvent);
     }
   }
 
