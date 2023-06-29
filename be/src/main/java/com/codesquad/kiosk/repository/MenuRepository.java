@@ -1,19 +1,20 @@
 package com.codesquad.kiosk.repository;
 
-import com.codesquad.kiosk.dto.MenuDetailDto;
-import com.codesquad.kiosk.dto.OptionCategoryDto;
-import lombok.RequiredArgsConstructor;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
 import com.codesquad.kiosk.domain.Menu;
 import com.codesquad.kiosk.domain.OrderMenu;
+import com.codesquad.kiosk.dto.MenuDetailDto;
+import com.codesquad.kiosk.dto.OptionCategoryDto;
+
 import lombok.RequiredArgsConstructor;
 
 @Repository
@@ -34,7 +35,7 @@ public class MenuRepository {
 		return namedParameterJdbcTemplate.query(sql, param, menuRowMapper());
 	}
 
-	public List<OrderMenu> getPopularityRanking(Integer categoryId) {
+	public Optional<OrderMenu> getPopularityRanking(Integer categoryId) {
 		String sql = "SELECT MENU_ID, SUM(QUANTITY) AS SUM_QUANTITY FROM ORDER_MENU "
 			+ "INNER JOIN MENU ON ORDER_MENU.MENU_ID = MENU.ID "
 			+ "INNER JOIN ORDERS ON ORDER_MENU.ORDER_ID = ORDERS.ID "
@@ -44,7 +45,7 @@ public class MenuRepository {
 		SqlParameterSource param = new MapSqlParameterSource()
 			.addValue("categoryId", categoryId)
 			.addValue("now", LocalDate.now());
-		return namedParameterJdbcTemplate.query(sql, param, orderMenuRowMapper());
+		return namedParameterJdbcTemplate.query(sql, param, orderMenuRowMapper()).stream().findFirst();
 	}
 
 	private RowMapper<Menu> menuRowMapper() {

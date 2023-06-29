@@ -1,22 +1,25 @@
 package com.codesquad.kiosk.service;
 
-import com.codesquad.kiosk.domain.Menu;
-import com.codesquad.kiosk.dto.CategoryResponseDto;
-import com.codesquad.kiosk.dto.MenuDetailDto;
-import com.codesquad.kiosk.dto.OptionCategoryDto;
-import com.codesquad.kiosk.dto.MenusByCategoryResponseDto;
-import com.codesquad.kiosk.repository.MenuRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
+import com.codesquad.kiosk.domain.Menu;
+import com.codesquad.kiosk.domain.OrderMenu;
+import com.codesquad.kiosk.dto.CategoryResponseDto;
+import com.codesquad.kiosk.dto.MenuDetailDto;
+import com.codesquad.kiosk.dto.MenusByCategoryResponseDto;
+import com.codesquad.kiosk.dto.OptionCategoryDto;
+import com.codesquad.kiosk.repository.MenuRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class MenuService {
 
     private final MenuRepository menuRepository;
-	  private final static int FIRST = 0;
 
     public List<CategoryResponseDto> getCategories() {
         List<String> categories = menuRepository.getCategoryList();
@@ -27,7 +30,11 @@ public class MenuService {
 
 	  public List<MenusByCategoryResponseDto> getMenusByCategory(Integer categoryId) {
 		List<Menu> menuList = menuRepository.getMenuList(categoryId);
-		int menuId = menuRepository.getPopularityRanking(categoryId).get(FIRST).getMenuId();
+		int menuId = menuRepository.getPopularityRanking(categoryId)
+			.orElse(OrderMenu.builder()
+				.menuId(0)
+				.build())
+			.getMenuId();
 		List<MenusByCategoryResponseDto> menus = menuList.stream()
 			.map(menu -> MenusByCategoryResponseDto.builder()
 				.name(menu.getName())
@@ -36,7 +43,11 @@ public class MenuService {
 				.img(menu.getImg())
 				.build())
 			.collect(Collectors.toList());
-		menus.get(menuId - 1).setPopular();
+		  for (MenusByCategoryResponseDto menu : menus) {
+			  if (menu.getMenuId() == menuId) {
+				  menu.setPopular();
+			  }
+		  }
 		return menus;
 	}
   

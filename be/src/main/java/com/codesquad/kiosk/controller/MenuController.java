@@ -28,7 +28,7 @@ public class MenuController {
     }
 
     @ApiOperation(value = "개별 메뉴 조회")
-    @GetMapping("api/carts/{menuId}")
+    @GetMapping("api/menuInfo/{menuId}")
     public ResponseEntity<MenuDetailDto> getMenuDetail(@PathVariable Integer menuId){
         try {
             MenuDetailDto menuDetailDto = menuService.getMenuDetail(menuId);
