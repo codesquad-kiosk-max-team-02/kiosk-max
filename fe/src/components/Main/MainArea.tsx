@@ -16,6 +16,9 @@ export function MainArea({
   const [productList, setProductList] = useState<Product[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
+  const categoryId = activeTab + 1;
+  const isModalOpen = !!selectedProduct;
+
   useEffect(() => {
     setLoading(true);
     fetch(`api/menus/${categoryId}`)
@@ -25,9 +28,6 @@ export function MainArea({
         setLoading(false);
       });
   }, [activeTab]);
-
-  const categoryId = activeTab + 1;
-  const isModalOpen = !!selectedProduct;
 
   function menuCardClickHandler(menuId: number) {
     const product = productList.find((item) => item.menuId === menuId);
