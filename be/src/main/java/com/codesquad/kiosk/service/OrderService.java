@@ -37,19 +37,9 @@ public class OrderService {
         return amount;
     }
 
-    public CardPaymentResponseDto cardPay(int totalPay,OrderRequestDto orderRequestDto){
-        String now = createNowDateformat();
-        Order order = orderRepository.getOrder().orElse(Order.builder().orderTime(now).orderNumber(0).build());
-        OrderNumberCreatorDto dto = new OrderNumberCreatorDto(order.getOrderTime(),order.getOrderNumber());
-        return new CardPaymentResponseDto(
-                createOrderNumber(dto,now),
-                totalPay,
-                orderRequestDto.getNumber(),
-                Boolean.TRUE
-        );
-    }
 
-    public void saveOrder(OrderRequestDto orderRequestDto) {
+
+    public int saveOrder(OrderRequestDto orderRequestDto) {
         String now = createNowDateformat();
         Order order = orderRepository.getOrder().orElse(Order.builder().orderTime(now).orderNumber(0).build());
         OrderNumberCreatorDto dto = new OrderNumberCreatorDto(order.getOrderTime(),order.getOrderNumber());
@@ -61,6 +51,7 @@ public class OrderService {
                     .build();
             orderRepository.saveOrder(orderId,orderMenu,orderRequestDto.getOrderList().get(i).getOption());
         }
+        return orderId;
     }
 
     private int createOrderNumber(OrderNumberCreatorDto dto,String now) {
@@ -84,18 +75,18 @@ public class OrderService {
         return orderRepository.getReceiptByOrderId(orderId);
     }
 
-    public CashPaymentResponseDto cashPayment( int totalPay,OrderRequestDto requestDto ) {
-        String now = createNowDateformat();
-        Order order = orderRepository.getOrder().orElse(Order.builder().orderTime(now).orderNumber(0).build());
-        OrderNumberCreatorDto dto = new OrderNumberCreatorDto(order.getOrderTime(),order.getOrderNumber());
-        int inputMoney = requestDto.getNumber();
-        int changes = inputMoney - totalPay;
-        return CashPaymentResponseDto
+    public PaymentResponseDto paymentResponse(int orderId, int totalPay, OrderRequestDto requestDto ) {
+        int inputMoney = requestDto.getInputMoney();
+        int changes = 0;
+        if(inputMoney != 0) {
+             changes = inputMoney - totalPay;
+        }
+        return PaymentResponseDto
                 .builder()
                 .totalPay(totalPay)
                 .changes(changes)
                 .result(true)
-                .orderNumber(createOrderNumber(dto,now))
+                .orderId(orderId)
                 .build();
     }
     private boolean random() {

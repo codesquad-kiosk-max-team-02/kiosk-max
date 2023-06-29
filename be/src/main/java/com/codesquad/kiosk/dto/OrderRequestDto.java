@@ -12,5 +12,5 @@ import java.util.List;
 public class OrderRequestDto {
 
     private List<OrderItem> orderList;
-    private int number;
+    private int inputMoney;
 }
