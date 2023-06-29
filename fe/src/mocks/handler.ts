@@ -195,10 +195,10 @@ const handlers = [
 
     if (number === '0') {
       // 결제 성공
-      return res(ctx.json({ return: 'true', orderNumber: '1' }));
+      return res(ctx.json({ result: 'true', orderNumber: '1' }));
     } else {
       // 결제 실패
-      return res(ctx.json({ return: 'false', cause: '훔친 카드💩' }));
+      return res(ctx.json({ result: 'false', cause: '훔친 카드💩' }));
     }
   }),
   rest.post('/api/payments/cash', (req, res, ctx) => {
