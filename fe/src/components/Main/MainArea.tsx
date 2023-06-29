@@ -37,7 +37,7 @@ export function MainArea({
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className={classes.main}>Loading...</div>;
   }
 
   return (
