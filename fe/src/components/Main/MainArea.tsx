@@ -1,18 +1,32 @@
-import { OrderData, Product } from '../../utils/types';
-import { Card } from './Card';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import classes from './MainArea.module.css';
+import { OrderData, Product } from '../../utils/types';
+
+import { Card } from './Card';
 import { Modal } from '../Modal/Modal';
 import { AddMenu } from '../Modal/AddMenu';
 export function MainArea({
-  productList,
+  activeTab,
   setOrderList,
 }: {
-  productList: Product[];
+  activeTab: number;
   setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
 }) {
+  const [loading, setLoading] = useState(false);
+  const [productList, setProductList] = useState<Product[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
+  useEffect(() => {
+    setLoading(true);
+    fetch(`api/menus/${categoryId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setProductList(data);
+        setLoading(false);
+      });
+  }, [activeTab]);
+
+  const categoryId = activeTab + 1;
   const isModalOpen = !!selectedProduct;
 
   function menuCardClickHandler(menuId: number) {
@@ -20,6 +34,10 @@ export function MainArea({
     if (product) {
       setSelectedProduct(product);
     }
+  }
+
+  if (loading) {
+    return <div>Loading...</div>;
   }
 
   return (

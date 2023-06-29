@@ -171,19 +171,19 @@ const handlers = [
     return res(ctx.status(200), ctx.json(menus));
   }),
   // 카테고리별 상품리스트
-  rest.get('api/menus/0', (req, res, ctx) => {
+  rest.get('api/menus/1', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(coffee));
   }),
-  rest.get('api/menus/1', (req, res, ctx) => {
+  rest.get('api/menus/2', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(latte));
   }),
-  rest.get('api/menus/2', (req, res, ctx) => {
+  rest.get('api/menus/3', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(juice));
   }),
-  rest.get('api/menus/3', (req, res, ctx) => {
+  rest.get('api/menus/4', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(tea));
   }),
-  rest.get('api/menus/4', (req, res, ctx) => {
+  rest.get('api/menus/5', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(decaf));
   }),
   // 각 상품별 상세정보
