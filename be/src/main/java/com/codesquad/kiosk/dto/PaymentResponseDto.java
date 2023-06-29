@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CashPaymentResponseDto {
+public class PaymentResponseDto {
 
     private boolean result;
     private int changes;
     private int totalPay;
-    private int orderNumber;
+    private int orderId;
 
 }
