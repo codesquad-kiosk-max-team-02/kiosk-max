@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Route from './components/Route';
 
 import classes from './App.module.css';
@@ -11,6 +11,7 @@ import { OrderData } from './utils/types';
 function App() {
   const [activeTab, setActiveTab] = useState(0);
   const [orderList, setOrderList] = useState<OrderData[]>([]);
+  const [response, setResponse] = useState<any>({});
 
   return (
     <div className={classes.kiosk}>

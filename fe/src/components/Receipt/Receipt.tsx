@@ -5,6 +5,8 @@ import classes from './Receipt.module.css';
 export function Receipt() {
   const [seconds, setSeconds] = useState(10);
 
+  const responseData = window.history.state;
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setSeconds((prevSeconds) => prevSeconds - 1);
@@ -26,7 +28,7 @@ export function Receipt() {
 
   return (
     <div className={classes.container}>
-      <h1 className={classes.orderNum}>주문번호 03</h1>
+      <h1 className={classes.orderNum}>주문번호 {responseData.orderId}</h1>
       <div className={classes.info}>
         <div className={classes.orderListWrapper}>
           <header className={classes.orderLabel}>

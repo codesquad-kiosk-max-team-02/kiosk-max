@@ -3,7 +3,6 @@ import classes from './CashPayment.module.css';
 import { OrderData } from '../../utils/types';
 
 import { modifyOrderList } from '../../utils/modifyOrderList';
-import { Link } from '../Link';
 
 export function CashPayment({ totalPrice, orderList }: { totalPrice: number; orderList: OrderData[] }) {
   const [inputCash, setInputCash] = useState(0);
@@ -28,7 +27,12 @@ export function CashPayment({ totalPrice, orderList }: { totalPrice: number; ord
       }),
     });
     const data = await response.json();
-    console.log(data);
+
+    if (data.result === true) {
+      window.history.pushState(data, '', '/receipt');
+      const navEvent = new PopStateEvent('popstate');
+      window.dispatchEvent(navEvent);
+    }
   }
 
   const isActive = inputCash >= totalPrice;
@@ -58,15 +62,14 @@ export function CashPayment({ totalPrice, orderList }: { totalPrice: number; ord
           <span>{inputCash} 원</span>
         </span>
       </div>
-      <Link href="/receipt">
-        <button
-          className={`${classes.paymentBtn} ${isActive ? classes.active : ''}`}
-          disabled={!isActive}
-          onClick={handleSubmit}
-        >
-          현금결제하기
-        </button>
-      </Link>
+
+      <button
+        className={`${classes.paymentBtn} ${isActive ? classes.active : ''}`}
+        disabled={!isActive}
+        onClick={handleSubmit}
+      >
+        현금결제하기
+      </button>
     </>
   );
 }

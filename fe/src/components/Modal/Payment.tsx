@@ -8,22 +8,18 @@ export function Payment({
   orderList,
   setModalContent,
   setIsPayProcessing,
-  setOrderList
+  setOrderList,
 }: {
   orderList: OrderData[];
   setModalContent: React.Dispatch<React.SetStateAction<{ content: string; cause?: string | null }>>;
   setIsPayProcessing: React.Dispatch<React.SetStateAction<boolean>>;
   setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
 }) {
-  // const [loading, setLoading] = useState(false);
-  // const [cardNumber, setCardNumber] = useState<string | null>(null);
   const [paymentResult, setPaymentResult] = useState<{ return: boolean; orderNumber?: string; cause?: string } | null>(
     null,
   );
 
   async function handleSubmit() {
-    // setLoading(true);
-
     const response = await fetch('/api/payments/card', {
       method: 'POST',
       headers: {
@@ -36,22 +32,18 @@ export function Payment({
     });
 
     const data = await response.json();
-    console.log(data);
+
     if (data.return === 'true') {
       // 결제 성공
       setPaymentResult({ return: true, orderNumber: data.orderNumber });
-      // setLoading(false);
       await useSleep(getRandomDelay(3000, 7000));
-      setOrderList([])
+      setOrderList([]);
       window.history.pushState({}, '', '/receipt');
       const navEvent = new PopStateEvent('popstate');
       window.dispatchEvent(navEvent);
     } else {
-      // 결제 실패
       setPaymentResult({ return: false, cause: data.cause });
-      // setLoading(false);
       await useSleep(getRandomDelay(3000, 7000));
-
       setModalContent({ content: 'paymentResult', cause: data.cause });
     }
   }
