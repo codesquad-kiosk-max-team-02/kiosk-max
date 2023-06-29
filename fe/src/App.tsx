@@ -9,10 +9,10 @@ import { Receipt } from './components/Receipt/Receipt';
 import { OrderData } from './utils/types';
 
 function App() {
+  const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const [menuList, setMenuList] = useState([]);
   const [productList, setProductList] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [orderList, setOrderList] = useState<OrderData[]>([]);
 
   useEffect(() => {

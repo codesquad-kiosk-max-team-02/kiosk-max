@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import classes from './AddMenu.module.css';
 import { OptionButton } from './OptionButton';
-
 import { Product, OrderData } from '../../utils/types';
 import { useSleep } from '../../utils/customHook';
-
-/* 여기에서 바뀐 수량, 가격 정보 같은걸 가지고 있어야 함 => 장바구니에 내려주기 위해 */
 
 export function AddMenu({
   menuId,
   setOrderList,
   setSelectedProduct,
+  modalCloseHandler,
 }: {
   menuId: number;
   setOrderList: React.Dispatch<React.SetStateAction<OrderData[]>>;
   setSelectedProduct: React.Dispatch<React.SetStateAction<Product | null>>;
+  modalCloseHandler: () => void;
 }) {
   const [count, setCount] = useState(1);
   const [temperature, setTemperature] = useState<string | null>(null);
@@ -32,8 +31,9 @@ export function AddMenu({
       .then((res) => res.json())
       .then((data) => {
         if (isMounted) {
+          console.log('Fetched data id:', menuId);
           setModalInfo(data);
-          setPrice(data.price);
+          setPrice(Number(data.price));
           setLoading(false);
         }
       });
@@ -41,20 +41,21 @@ export function AddMenu({
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [menuId]);
 
   useEffect(() => {
-    setPrice(modalInfo.price + calculateAdditionalCost());
+    const additionalCost = calculateAdditionalCost();
+    setPrice(Number(modalInfo.price) + additionalCost);
   }, [temperature, size]);
 
   function calculateAdditionalCost() {
     let additionalCost = 0;
 
-    if (temperature === 'ice') {
-      additionalCost += modalInfo.iceCost;
+    if (modalInfo.iceCost && temperature === 'ice') {
+      additionalCost += Number(modalInfo.iceCost);
     }
-    if (size === 'big') {
-      additionalCost += modalInfo.sizeCost;
+    if (modalInfo.sizeCost && size === 'big') {
+      additionalCost += Number(modalInfo.sizeCost);
     }
 
     return additionalCost;
@@ -130,7 +131,7 @@ export function AddMenu({
             alt={modalInfo.name}
           />
           <p>{modalInfo.name}</p>
-          <p>{price}</p>
+          <p>{Number(price)}</p>
         </div>
         <div className={classes.optionsLayout}>
           <div className={classes.buttonsLayout}>
