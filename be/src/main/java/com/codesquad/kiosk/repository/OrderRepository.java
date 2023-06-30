@@ -71,11 +71,11 @@ public class OrderRepository {
     }
   
     public ReceiptDto getReceiptByOrderId(Integer orderId) {
-        String sql = "SELECT o.order_number, m.name AS menu_name, om.quantity" +
-                "FROM orders AS o " +
-                "JOIN order_menu AS om ON o.id = om.order_id " +
-                "JOIN menu AS m ON om.menu_id = m.id " +
-                "WHERE o.id = " + orderId;
+        String sql = "SELECT o.order_number, m.name AS menu_name, om.quantity " +
+            "FROM ORDERS AS o " +
+            "JOIN ORDER_MENU AS om ON o.id = om.order_id " +
+            "JOIN MENU AS m ON om.menu_id = m.id " +
+            "WHERE o.id = " + orderId;
         return new ReceiptDto (orderId,
                 namedParameterJdbcTemplate.query(
                 sql,(rs, rowNum) -> new ReceiptItemDto(
