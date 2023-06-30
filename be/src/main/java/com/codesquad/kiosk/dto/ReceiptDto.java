@@ -1,9 +1,9 @@
 package com.codesquad.kiosk.dto;
-import com.codesquad.kiosk.domain.OrderMenu;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor

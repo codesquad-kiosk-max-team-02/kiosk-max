@@ -1,22 +1,22 @@
 package com.codesquad.kiosk.repository;
 
-import com.codesquad.kiosk.dto.ReceiptDto;
-import com.codesquad.kiosk.dto.ReceiptItemDto;
-import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import com.codesquad.kiosk.domain.Order;
-import com.codesquad.kiosk.domain.OrderMenu;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import com.codesquad.kiosk.domain.Order;
+import com.codesquad.kiosk.domain.OrderMenu;
+import com.codesquad.kiosk.dto.ReceiptOrderNumberDto;
+
+import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
@@ -70,18 +70,14 @@ public class OrderRepository {
                      .build();
     }
   
-    public ReceiptDto getReceiptByOrderId(Integer orderId) {
+    public List<ReceiptOrderNumberDto> getReceiptByOrderId(Integer orderId) {
         String sql = "SELECT o.order_number, m.name AS menu_name, om.quantity " +
             "FROM ORDERS AS o " +
             "JOIN ORDER_MENU AS om ON o.id = om.order_id " +
             "JOIN MENU AS m ON om.menu_id = m.id " +
             "WHERE o.id = " + orderId;
-        return new ReceiptDto (orderId,
-                namedParameterJdbcTemplate.query(
-                sql,(rs, rowNum) -> new ReceiptItemDto(
-                        rs.getString("menu_name"),
-                        rs.getInt("quantity"))
-        ));
+        return namedParameterJdbcTemplate.query(sql,(rs, rowNum) ->
+            new ReceiptOrderNumberDto(rs.getInt("order_number"), rs.getString("menu_name"), rs.getInt("quantity")));
     }
 
 	public Integer getOptionPrice(int menuId, int optionId) {

@@ -3,6 +3,7 @@ package com.codesquad.kiosk.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.codesquad.kiosk.dto.*;
@@ -72,7 +73,13 @@ public class OrderService {
     }
 
     public ReceiptDto getReceiptByOrderId(Integer orderId) {
-        return orderRepository.getReceiptByOrderId(orderId);
+        List<ReceiptOrderNumberDto> receiptOrderNumberDtoList = orderRepository.getReceiptByOrderId(orderId);
+        List<ReceiptItemDto> receiptItemDtoList = new ArrayList<>();
+        for (ReceiptOrderNumberDto receiptOrderNumberDto : receiptOrderNumberDtoList) {
+            receiptItemDtoList.add(
+                new ReceiptItemDto(receiptOrderNumberDto.getName(), receiptOrderNumberDto.getQuantity()));
+        }
+        return new ReceiptDto(receiptOrderNumberDtoList.get(0).getOrderNumber(), receiptItemDtoList);
     }
 
     public PaymentResponseDto paymentResponse(int orderId, int totalPay, OrderRequestDto requestDto ) {
