@@ -6,14 +6,14 @@ const coffee = [
   { name: '아메리카노', price: 4000, menuId: 1, img: '/assets/americano.jpeg', popular: true },
   { name: '콜드브루', price: 4500, menuId: 2, img: '/assets/coldbrew.jpeg', popular: false },
   { name: '에스프레소', price: 3000, menuId: 3, img: '/assets/espresso.jpeg', popular: false },
-  { name: '카페모카', price: 4500, menuId: 4, img: '/assets/caffe-mocha.jpeg', popular: false },
 ];
 
 const latte = [
-  { name: '카페라떼', price: 4500, menuId: 5, img: '/assets/latte.jpeg', popular: false },
-  { name: '카푸치노', price: 4500, menuId: 6, img: '/assets/cappuccino.jpeg', popular: true },
-  { name: '평범한라떼', price: 3000, menuId: 7, img: '/assets/latte.jpeg', popular: false },
-  { name: '그냥라떼', price: 4500, menuId: 8, img: '/assets/latte.jpeg', popular: false },
+  { name: '카페 라떼', price: 4500, menuId: 4, img: '/assets/latte.jpeg', popular: false },
+  { name: '카푸치노', price: 4500, menuId: 5, img: '/assets/cappuccino.jpeg', popular: true },
+  { name: '카라멜 마키아또', price: 3000, menuId: 6, img: '/assets/latte.jpeg', popular: false },
+  { name: '바닐라 라떼', price: 4500, menuId: 7, img: '/assets/latte.jpeg', popular: false },
+  { name: '카페 모카', price: 4500, menuId: 8, img: '/assets/caffe-mocha.jpeg', popular: false },
 ];
 
 const juice = [
@@ -116,9 +116,9 @@ const menu3 = {
 };
 
 const menu4 = {
-  name: '카페모카',
+  name: '카페 라떼',
   price: 4500,
-  img: '/assets/espresso.jpeg',
+  img: '/assets/latte.jpeg',
   option: [
     {
       optionCategoryType: 'size',
