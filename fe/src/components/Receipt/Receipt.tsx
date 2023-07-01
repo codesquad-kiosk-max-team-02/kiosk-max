@@ -10,22 +10,23 @@ type ReceiptData = {
 export function Receipt() {
   const [seconds, setSeconds] = useState(10);
   const [loading, setLoading] = useState(true);
-  const receiptData = useRef<ReceiptData | null>(null);
-
   const responseData = window.history.state;
+  const receiptData = useRef<ReceiptData | null>(null);
 
   useEffect(() => {
     setLoading(true);
     let isMounted = true;
 
-    fetch(`${process.env.REACT_APP_API_URL}/api/receipts/${responseData.orderId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (isMounted) {
-          receiptData.current = data;
-          setLoading(false);
-        }
-      });
+    const fetchData = async () => {
+      const res = await fetch(`/api/receipts/${responseData.orderId}`);
+      const data = await res.json();
+      if (isMounted) {
+        receiptData.current = data;
+        setLoading(false);
+      }
+    };
+
+    fetchData();
 
     return () => {
       isMounted = false;
@@ -57,7 +58,13 @@ export function Receipt() {
 
   return (
     <div className={classes.container}>
-      <h1 className={classes.orderNum}>주문번호 {responseData.orderId}</h1>
+      <h1 className={classes.orderNum}>
+        {receiptData.current ? (
+          <h1 className={classes.orderNum}>주문번호 {receiptData.current.orderNumber}</h1>
+        ) : (
+          <h1 className={classes.orderNum}>주문번호를 불러오는 중...</h1>
+        )}
+      </h1>
       <div className={classes.info}>
         <div className={classes.orderListWrapper}>
           <header className={classes.orderLabel}>
@@ -65,14 +72,14 @@ export function Receipt() {
             <span>수량</span>
           </header>
           <section className={classes.orderList}>
-            {receiptData.current!.orderList.map((item, index) => {
+            {receiptData.current?.orderList?.map((item, index) => {
               return (
                 <div key={index} className={classes.orderItem}>
                   <span>{item.name}</span>
                   <span>{item.quantity}</span>
                 </div>
               );
-            })}
+            }) ?? <div className={classes.orderItem}>주문 목록이 없습니다.</div>}
           </section>
         </div>
         <div className={classes.paymentInfo}>

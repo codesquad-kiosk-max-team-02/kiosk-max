@@ -18,7 +18,7 @@ export function Payment({
   const orderListForServer = modifyOrderList(orderList);
 
   async function handleSubmit() {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/payments/card`, {
+    const response = await fetch('/api/payments/card', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

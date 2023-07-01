@@ -12,7 +12,7 @@ export function TabMenu({ activeTab, setActiveTab }: { activeTab: number; setAct
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${process.env.REACT_APP_API_URL}/api/categories`)
+    fetch('/api/categories')
       .then((res) => res.json())
       .then((data) => {
         setMenuList(data);
