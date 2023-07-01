@@ -21,7 +21,7 @@ export function MainArea({
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${process.env.REACT_APP_API_URL}/api/menus/${categoryId}`)
+    fetch(`/api/menus/${categoryId}`)
       .then((res) => res.json())
       .then((data) => {
         setProductList(data);

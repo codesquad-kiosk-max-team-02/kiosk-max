@@ -25,7 +25,7 @@ export function AddMenu({
     setLoading(true);
     let isMounted = true;
 
-    fetch(`${process.env.REACT_APP_API_URL}/api/menuInfo/${menuId}`)
+    fetch(`/api/menuInfo/${menuId}`)
       .then((res) => res.json())
       .then((data) => {
         if (isMounted) {
@@ -42,7 +42,6 @@ export function AddMenu({
 
   useEffect(() => {
     if (!modalInfo) {
-      console.log('modalInfo is possibly null');
       return;
     }
     const additionalCost = calculateAdditionalCost();
@@ -51,7 +50,6 @@ export function AddMenu({
 
   function calculateAdditionalCost() {
     if (!modalInfo) {
-      console.log('modalInfo is possibly null');
       return 0;
     }
 
